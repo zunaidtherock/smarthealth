@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Health Assistant - Details</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .diamond {
+      position: absolute;
+      width: 120vmin;
+      height: 120vmin;
+      background: linear-gradient(45deg, #00f0ff, #ff2dcf);
+      opacity: 0.2;
+      transform: rotate(45deg);
+      border-radius: 8%;
+      box-shadow:
+        0 0 60px #00f0ff,
+        0 0 100px #ff2dcf,
+        0 0 160px #00f0ff,
+        0 0 200px #ff2dcf;
+      z-index: 0;
+    }
+
+    .form-container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 30px #00f0ff;
+      z-index: 1;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00f0ff;
+      text-shadow: 0 0 10px #00f0ff;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 6px;
+      background-color: #111;
+      color: white;
+      box-shadow: 0 0 10px #222 inset;
+      font-size: 1rem;
+    }
+
+    .submit-btn {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(145deg, #00f0ff, #02c3bd);
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00f0ff, 0 0 30px #00f0ff;
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(145deg, #00c9f0, #00a1ff);
+      box-shadow: 0 0 30px #00e0ff, 0 0 40px #00e0ff;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="diamond"></div>
+
+  <div class="form-container">
+    <h2>User Details</h2>
+    <form action="dashboard.html" method="GET">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label for="email">Email ID:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" min="1" max="120" required>
+
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" required>
+        <option value="">Select Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" rows="3" required></textarea>
+
+      <button type="submit" class="submit-btn">Submit & Continue</button>
+    </form>
+  </div>
+
+</body>
+</html>

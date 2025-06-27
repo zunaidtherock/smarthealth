@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Health Assistant - Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .diamond {
+      position: absolute;
+      width: 130vmin;
+      height: 130vmin;
+      background: linear-gradient(45deg, #00f0ff, #ff2dcf);
+      opacity: 0.2;
+      transform: rotate(45deg);
+      border-radius: 8%;
+      box-shadow: 0 0 60px #00f0ff, 0 0 100px #ff2dcf, 0 0 160px #00f0ff, 0 0 200px #ff2dcf;
+      z-index: 0;
+      top: -20%;
+      left: -20%;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 2;
+    }
+
+    .title {
+      font-size: 2rem;
+      color: #00f0ff;
+      text-shadow: 0 0 10px #00f0ff;
+    }
+
+    .glow-btn {
+      background: linear-gradient(145deg, #00f0ff, #02c3bd);
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00f0ff;
+      transition: 0.3s;
+    }
+
+    .glow-btn:hover {
+      box-shadow: 0 0 25px #00f0ff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      padding: 40px;
+      max-width: 1100px;
+      margin: auto;
+      z-index: 1;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #00f0ff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px #00f0ff22;
+      transition: 0.3s ease;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px #00f0ff, 0 0 30px #00f0ff;
+      background-color: rgba(0, 255, 255, 0.08);
+    }
+
+    .status-box, .profile-panel, .chat-box, .history-log, #healthTip, #healthScore, #goalTracker, #nextCheck, #aiAdvice {
+      background-color: #111;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 25px #00f0ff;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .profile-panel, .chat-box {
+      position: fixed;
+      top: 80px;
+      right: 30px;
+      display: none;
+      z-index: 999;
+    }
+
+    .chat-support {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="diamond"></div>
+
+  <div class="header">
+    <div class="title">Smart Health Assistant</div>
+    <button class="glow-btn" onclick="toggleProfile()">Profile</button>
+  </div>
+
+  <div id="greeting" class="fade-in"></div>
+
+  <div class="status-box fade-in" id="healthStatusBox">
+    <h3 style="color:#00f0ff;">Health Overview</h3>
+    <p><strong>BP:</strong> <span id="bp">--</span> mmHg</p>
+    <p><strong>SpO2:</strong> <span id="spo2">--</span>%</p>
+    <p><strong>Temp:</strong> <span id="temp">--</span>°F</p>
+    <p>Status: <span id="statusText" style="color: #888; font-weight: bold;">No data</span></p>
+  </div>
+
+  <div id="healthScore" class="fade-in"></div>
+  <div id="goalTracker" class="fade-in"></div>
+  <div id="nextCheck" class="fade-in"></div>
+  <div id="aiAdvice" class="fade-in"></div>
+  <div id="healthTip" class="fade-in"></div>
+
+  <div class="grid fade-in">
+    <div class="card" onclick="navigate('vitals.html')">
+      <h3>Vitals Input</h3>
+      <p>Enter your BP, SpO2, Temperature, etc.</p>
+    </div>
+    <div class="card" onclick="navigate('symptoms.html')">
+      <h3>Symptom Checker</h3>
+      <p>Select and describe symptoms you feel.</p>
+    </div>
+    <div class="card" onclick="navigate('guidance.html')">
+      <h3>Health Guidance</h3>
+      <p>Get health tips, remedies, or medicine advice.</p>
+    </div>
+    <div class="card" onclick="navigate('contact.html')">
+      <h3>Doctor Contact</h3>
+      <p>Connect with a nearby doctor or clinic.</p>
+    </div>
+    <div class="card" onclick="downloadReport()">
+      <h3>Download Report</h3>
+      <p>Download your latest health check as PDF.</p>
+    </div>
+  </div>
+
+  <div class="profile-panel" id="profilePanel"></div>
+
+  <div class="chat-support">
+    <button class="glow-btn" onclick="navigate('chatai.html')">💬 Chat Support</button>
+  </div>
+
+  <div class="chat-box" id="chatBox">
+    <h4 style="color:#00f0ff">ChatBot</h4>
+    <p>Hello! How can I assist you today?</p>
+    <p style="font-size: 0.9rem; color:#aaa">(Chat simulation only)</p>
+  </div>
+
+  <div class="history-log fade-in" id="historyLog"></div>
+
+  <script>
+    function toggleProfile() {
+      const panel = document.getElementById('profilePanel');
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function navigate(url) {
+      window.location.href = url;
+    }
+
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const keys = ['name','age','email','phone','gender','address','bp','spo2','temp'];
+    keys.forEach(k => {
+      const val = getQueryParam(k);
+      if (val) localStorage.setItem(k, val);
+    });
+
+    const name = localStorage.getItem('name') || 'User';
+    const bp = localStorage.getItem('bp');
+    const spo2 = localStorage.getItem('spo2');
+    const temp = localStorage.getItem('temp');
+
+    const hour = new Date().getHours();
+    const greet = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
+    document.getElementById("greeting").textContent = `${greet}, ${name}`;
+
+    const profileHTML =
+      `<h4>Your Profile</h4>` +
+      keys.slice(0,6).map(k => `<p><strong>${k[0].toUpperCase() + k.slice(1)}:</strong> ${localStorage.getItem(k) || 'Not provided'}</p>`).join('');
+    document.getElementById('profilePanel').innerHTML = profileHTML;
+
+    if (bp && spo2 && temp) {
+      document.getElementById("bp").textContent = bp;
+      document.getElementById("spo2").textContent = spo2;
+      document.getElementById("temp").textContent = temp;
+
+      const statusText = document.getElementById("statusText");
+      const isSafe = parseInt(spo2) >= 95 && parseFloat(temp) <= 100.4;
+      statusText.textContent = isSafe ? "Stable" : "Unstable";
+      statusText.style.color = isSafe ? "#0f0" : "#f00";
+
+      // Health Score Calculation
+      let score = 0;
+      if (parseInt(spo2) >= 95) score += 40;
+      if (parseFloat(temp) <= 100.4) score += 30;
+      if (parseInt(bp.split('/')[0]) >= 90 && parseInt(bp.split('/')[0]) <= 130) score += 30;
+      document.getElementById("healthScore").innerHTML = `<h4 style='color:#00f0ff;'>Health Score</h4><p>${score}/100</p>`;
+
+      // Goal Tracker
+      document.getElementById("goalTracker").innerHTML =
+        `<h4 style='color:#00f0ff;'>Daily Goal Tracker</h4>
+        <ul>
+          <li>💧 Water Intake: 3/8 Glasses</li>
+          <li>🚶 Walk: 2500/10000 steps</li>
+          <li>🛌 Sleep: 5/8 hours</li>
+        </ul>`;
+
+      // AI Health Advice
+      const advice = isSafe ? "You’re doing well. Keep maintaining your healthy habits! 💪" :
+                              "Consider resting, drinking water, and consulting a doctor if symptoms persist.";
+      document.getElementById("aiAdvice").innerHTML = `<h4 style='color:#00f0ff;'>AI Health Advice</h4><p>${advice}</p>`;
+
+      // History
+      const prev = JSON.parse(localStorage.getItem("history") || "[]");
+      prev.push({ bp, spo2, temp, date: new Date().toLocaleString() });
+      localStorage.setItem("history", JSON.stringify(prev));
+
+      const nextCheck = new Date();
+      nextCheck.setDate(nextCheck.getDate() + 1);
+      document.getElementById("nextCheck").innerHTML = `<h4 style='color:#00f0ff;'>Next Health Check</h4><p>${nextCheck.toDateString()}</p>`;
+    }
+
+    const history = JSON.parse(localStorage.getItem("history") || "[]");
+    if (history.length > 0) {
+      document.getElementById("historyLog").innerHTML =
+        `<h4 style='color:#00f0ff;'>Health History</h4>` +
+        history.slice(-5).map(e => `<p>${e.date}: BP ${e.bp}, SpO2 ${e.spo2}, Temp ${e.temp}</p>`).join('');
+    }
+
+    const tips = [
+      "Drink 2-3 liters of water daily 💧",
+      "Get 7-8 hours of sleep 😴",
+      "Avoid stress – Breathe deeply 🌬️",
+      "Eat more fruits & greens 🥦🍎",
+      "Take regular screen breaks 👁️"
+    ];
+    let index = 0;
+    setInterval(() => {
+      document.getElementById("healthTip").textContent = tips[index];
+      index = (index + 1) % tips.length;
+    }, 4000);
+
+    function downloadReport() {
+      const content = `Health Report - ${new Date().toLocaleDateString()}\n\nBP: ${bp}\nSpO2: ${spo2}\nTemp: ${temp}\nStatus: ${document.getElementById("statusText").textContent}`;
+      const blob = new Blob([content], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "Health_Report.txt";
+      link.click();
+    }
+  </script>
+</body>
+</html>

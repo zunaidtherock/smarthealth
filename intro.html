@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Health Assistant</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #000000;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      color: white;
+    }
+
+    /* Glowing Diamond Frame */
+    .diamond {
+      position: absolute;
+      width: 100vmin;
+      height: 100vmin;
+      background: linear-gradient(45deg, #00f0ff, #ff2dcf);
+      opacity: 0.2;
+      transform: rotate(45deg);
+      border-radius: 8%;
+      box-shadow:
+        0 0 60px #00f0ff,
+        0 0 100px #ff2dcf,
+        0 0 160px #00f0ff,
+        0 0 200px #ff2dcf;
+    }
+
+    h1 {
+      font-size: 4rem;
+      color: #00f0ff;
+      text-shadow: 0 0 15px #00f0ff, 0 0 30px #00f0ff;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      font-size: 1.4rem;
+      color: #ffb6ff;
+      text-shadow: 0 0 10px #ff2dcf;
+      margin-bottom: 40px;
+      z-index: 1;
+    }
+
+    .btn {
+      padding: 15px 35px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #000;
+      background: linear-gradient(145deg, #00f0ff, #02c3bd);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00f0ff, 0 0 30px #00f0ff;
+      transition: all 0.3s ease;
+      z-index: 1;
+    }
+
+    .btn:hover {
+      background: linear-gradient(145deg, #00c9f0, #00a1ff);
+      box-shadow: 0 0 30px #00e0ff, 0 0 40px #00e0ff;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="diamond"></div>
+
+  <h1>Smart Health Assistant</h1>
+  <div class="subtitle">Your medical caretaker</div>
+  <button class="btn" onclick="startApp()">Start Diagnosis</button>
+
+  <script>
+    function startApp() {
+      alert("Launching Smart Health Assistant...");
+      // window.location.href = "main.html";
+    }
+  </script>
+
+</body>
+</html>
